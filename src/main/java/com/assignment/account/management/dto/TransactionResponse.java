@@ -15,4 +15,5 @@ public class TransactionResponse {
     private String type; // "in" for credit, "out" for debit
     private LocalDateTime timestamp;
     private BigDecimal newBalance;
+    private Boolean flaggedForReview;
 }

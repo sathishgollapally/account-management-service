@@ -1,5 +1,6 @@
 package com.assignment.account.management.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Setter
 @Getter
+@Builder
 public class TransactionHistoryResponse {
 
     private List<TransactionDetails> transactions; // List of transactions

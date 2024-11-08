@@ -3,21 +3,25 @@ package com.assignment.account.management.repository;
 import com.assignment.account.management.entity.Transaction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-    // Find transactions by accountId and transactionType
-    Page<Transaction> findByAccountIdAndType(Long accountId, String type, PageRequest pageRequest);
+    Page<Transaction> findByAccountIdAndType(Long accountId, String type, Pageable pageable);
 
-    // Find transactions by accountId and a date range (start and end)
-    Page<Transaction> findByAccountIdAndTimestampBetween(Long accountId, LocalDateTime start, LocalDateTime end, PageRequest pageRequest);
+    Page<Transaction> findByAccountIdAndTimestampBetween(Long accountId, LocalDateTime start, LocalDateTime end, Pageable pageable);
 
-    // Find transactions by accountId, transactionType, and a date range
-    Page<Transaction> findByAccountIdAndTypeAndTimestampBetween(Long accountId, String type, LocalDateTime start, LocalDateTime end, PageRequest pageRequest);
+    Page<Transaction> findByAccountIdAndTypeAndTimestampBetween(Long accountId, String type, LocalDateTime start, LocalDateTime end, Pageable pageable);
 
-    // Find transactions by accountId without filters
-    Page<Transaction> findByAccountId(Long accountId, PageRequest pageRequest);
+    Page<Transaction> findByAccountId(Long accountId, Pageable pageable);
+
+    @Query("SELECT COALESCE(SUM(t.amount), 0) FROM Transaction t WHERE t.accountId = :accountId AND t.type = 'out' AND DATE(t.timestamp) = :date")
+    BigDecimal findTotalWithdrawalsForToday(@Param("accountId") Long accountId, @Param("date") LocalDate date);
 }

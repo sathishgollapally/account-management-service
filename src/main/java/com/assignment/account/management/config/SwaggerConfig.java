@@ -13,7 +13,7 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Interview Script Generation API")
+                        .title("Account transaction management API")
                         .version("1.0")
                         .description("account transaction management service.")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")));

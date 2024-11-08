@@ -9,17 +9,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/v1/accounts")
-@Tag(name = "Account Management", description = "APIs for managing user accounts")
+@Tag(name = "Account Management", description = "APIs for managing user accounts and transactions")
+@Slf4j
 public class AccountManagementController {
-
 
     private final AccountManagementService accountManagementService;
 
@@ -28,7 +30,7 @@ public class AccountManagementController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new account (v1)", description = "Creates a new account with an initial balance", tags = {"Account Management"})
+    @Operation(summary = "Create a new account", description = "Creates a new account with an initial balance", tags = {"Account Management"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Account created successfully",
                     content = @Content(schema = @Schema(implementation = AccountCreateResponse.class))),
@@ -36,13 +38,14 @@ public class AccountManagementController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<AccountCreateResponse> createAccount(@RequestBody @Valid AccountCreateRequest accountRequest) {
+        log.debug("Entered AccountManagementController.createAccount()");
         AccountCreateResponse account = accountManagementService.createAccount(accountRequest);
         return new ResponseEntity<>(account, HttpStatus.CREATED);
     }
 
     @GetMapping("/{accountId}")
     @Operation(
-            summary = "Retrieve account details by account ID (v1)",
+            summary = "Retrieve account details by accountId",
             description = "Fetches the details of an account, including current balance and status, based on the provided account ID.",
             tags = {"Account Management"}
     )
@@ -63,13 +66,14 @@ public class AccountManagementController {
             )
     })
     public ResponseEntity<AccountSearchResponse> getAccountDetails(@PathVariable @Valid Long accountId) {
+        log.debug("Entered AccountManagementController.getAccountDetails()");
         AccountSearchResponse account = accountManagementService.getAccountDetails(accountId);
         return new ResponseEntity<>(account, HttpStatus.OK);
     }
 
 
     @PutMapping("/{accountId}")
-    @Operation(summary = "Update account details by account ID", description = "Updates account holder's name and status", tags = {"Account Management"})
+    @Operation(summary = "Update account details by accountId", description = "Updates account holder's name and status", tags = {"Account Management"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Account updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request parameters"),
@@ -79,6 +83,7 @@ public class AccountManagementController {
     public ResponseEntity<Void> updateAccount(
             @PathVariable Long accountId,
             @RequestBody @Valid AccountUpdateRequest accountUpdateRequest) {
+        log.debug("Entered AccountManagementController.updateAccount()");
         accountManagementService.updateAccount(accountId, accountUpdateRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -91,6 +96,7 @@ public class AccountManagementController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<Void> suspendAccount(@PathVariable Long accountId) {
+        log.debug("Entered AccountManagementController.suspendAccount()");
         accountManagementService.suspendAccount(accountId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -131,7 +137,7 @@ public class AccountManagementController {
     public ResponseEntity<TransactionResponse> processTransaction(
             @PathVariable Long accountId,
             @RequestBody @Valid TransactionRequest transactionRequest) {
-
+        log.debug("Entered AccountManagementController.processTransaction()");
         TransactionResponse transactionResponse = accountManagementService.processTransaction(accountId, transactionRequest);
         return new ResponseEntity<>(transactionResponse, HttpStatus.CREATED);
     }
@@ -166,6 +172,7 @@ public class AccountManagementController {
             @RequestParam(defaultValue = "0") int page, // Pagination - default page is 0
             @RequestParam(defaultValue = "10") int size // Pagination - default size is 10
     ) {
+        log.debug("Entered AccountManagementController.getTransactionHistory()");
         TransactionHistoryResponse response = accountManagementService.getTransactionHistory(accountId, transactionType, startDate, endDate, page, size);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

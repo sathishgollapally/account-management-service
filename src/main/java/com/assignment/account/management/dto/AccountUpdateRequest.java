@@ -17,9 +17,4 @@ public class AccountUpdateRequest {
     @Schema(description = "Name of the account holder", example = "James Goslings", required = true)
     private String accountHolderName;
 
-    @NotNull(message = "Initial balance is required.")
-    @Positive(message = "Initial balance must be a positive number.")
-    @Schema(description = "Initial balance for the new account", example = "100.00", required = true)
-    private BigDecimal initialBalance;
-
 }

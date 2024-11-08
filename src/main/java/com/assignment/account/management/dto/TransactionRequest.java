@@ -16,6 +16,4 @@ public class TransactionRequest {
     @NotNull(message = "Transaction type must be specified.")
     private String type; // "in" for credit, "out" for debit
 
-    @NotNull(message = "Timestamp must not be null.")
-    private String timestamp;
 }

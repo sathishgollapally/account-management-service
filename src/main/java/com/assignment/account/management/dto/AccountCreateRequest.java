@@ -1,6 +1,7 @@
 package com.assignment.account.management.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -18,7 +19,7 @@ public class AccountCreateRequest {
     private String accountHolderName;
 
     @NotNull(message = "Initial balance is required.")
-    @Positive(message = "Initial balance must be a positive number.")
+    @DecimalMin(value = "0", inclusive = true, message = "Initial balance must be zero or a positive number.")
     @Schema(description = "Initial balance for the new account", example = "100.00", required = true)
     private BigDecimal initialBalance;
 

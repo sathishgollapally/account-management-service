@@ -22,5 +22,6 @@ public class Transaction {
     private String type; // "in" for credit, "out" for debit
     private LocalDateTime timestamp;
     private BigDecimal balanceAfterTransaction;
+    private boolean flaggedForReview;
 
 }
