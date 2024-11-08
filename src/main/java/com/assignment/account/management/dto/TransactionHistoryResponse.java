@@ -17,5 +17,4 @@ public class TransactionHistoryResponse {
     private int totalPages;  // Total number of pages
     private long totalTransactions; // Total number of transactions
 
-
 }

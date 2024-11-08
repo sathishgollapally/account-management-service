@@ -1,6 +1,7 @@
 package com.assignment.account.management.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 @Getter
 public class TransactionRequest {
 
-    @NotNull(message = "Amount must not be null.")
+    @Positive(message = "amount must be a positive number.")
     private BigDecimal amount;
 
     @NotNull(message = "Transaction type must be specified.")

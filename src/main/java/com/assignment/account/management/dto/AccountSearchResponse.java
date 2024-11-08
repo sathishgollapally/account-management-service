@@ -13,12 +13,8 @@ import java.math.BigDecimal;
 public class AccountSearchResponse {
 
     private Long accountId;
-
     private BigDecimal balance;
-
     private String status;
-
     private String accountHolderName;
-
 
 }

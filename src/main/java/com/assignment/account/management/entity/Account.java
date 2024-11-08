@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 public class Account extends  BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "accountId", nullable = false)
     private Long accountId;
 

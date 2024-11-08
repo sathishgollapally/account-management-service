@@ -13,17 +13,12 @@ import java.math.BigDecimal;
 public class TransactionHistory extends  BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "accountId", nullable = false)
     private Long accountId;
 
     private BigDecimal initialBalance;
 
     private BigDecimal currentBalance;
-
-    
-
-
-
 
 }
